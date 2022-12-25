@@ -1,10 +1,13 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { signOut } from "firebase/auth";
+import React from "react";
+
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-    const { pathname } = useLocation();
-    return (
-        <nav
+  const { pathname } = useLocation();
+
+  return (
+    <nav
       className={`h-14 fixed w-full z-[999] ${
         pathname === "/" ? null : "bg-white"
       }`}
@@ -29,7 +32,7 @@ const Navbar = () => {
         </li>
       </ul>
     </nav>
-    );
+  );
 };
 
 export default Navbar;

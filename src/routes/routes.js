@@ -1,12 +1,23 @@
+import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/dashboard/Dashboard";
-
-const { createBrowserRouter } = require("react-router-dom");
+import Main from "../layout/main/Main";
+import Home from "../pages/home/Home";
 
 const routes = createBrowserRouter([
+{
+  path: "/",
+  element: <Main/>,
+  children: [
     {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
-])
+      path: "/",
+      element: <Home/>,
+    },
+  ],
+},
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
+]);
 
 export default routes;

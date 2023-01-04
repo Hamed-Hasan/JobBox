@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/dashboard/Dashboard";
 import Main from "../layout/main/Main";
 import AddJob from "../pages/employeeDashboard/AddJob";
+import AppliedJobs from "../pages/employeeDashboard/AppliedJob";
 import Home from "../pages/home/Home";
 import JobDetails from "../pages/home/JobDetails";
 import Jobs from "../pages/home/Jobs";
@@ -63,6 +64,10 @@ const routes = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "applied-job",
+        element: <AppliedJobs/>
+      },
       {
         path: "add-job",
         element: <AddJob/>

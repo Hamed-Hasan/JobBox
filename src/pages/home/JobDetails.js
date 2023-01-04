@@ -2,7 +2,17 @@ import React from "react";
 
 import meeting from "../../assets/meeting.jpg";
 import { BsArrowRightShort, BsArrowReturnRight } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import { useApplyJobMutation, useGetJobByIdQuery } from "../../app/features/job/jobApi";
 const JobDetails = () => {
+  const user = useSelector(state => state.auth);
+  console.log("🚀 ~ file: JobDetails.js:11 ~ JobDetails ~ user", user)
+  const navigate = useNavigate();
+  const {id} = useParams()
+const {data} = useGetJobByIdQuery(id)
+  const [applyJob] = useApplyJobMutation()
   const {
     companyName,
       position,
@@ -17,8 +27,24 @@ const JobDetails = () => {
       overview,
       queries,
       _id,
-  } = {}
-
+  } = data?.data || {}
+const handleApply = () => {
+  const data = {
+    userId: user._id,
+    email: user.email,
+    jobId: _id
+  }
+  applyJob(data)
+  console.log(data)
+  if(user.role === 'employer') {
+    toast.error('You cannot apply before register candidate account')
+    return
+  }
+  if(user.role === '') {
+    navigate('/register')
+    return
+  }
+}
   return (
     <div className='pt-14 grid grid-cols-12 gap-5'>
       <div className='col-span-9 mb-10'>
@@ -28,7 +54,7 @@ const JobDetails = () => {
         <div className='space-y-5'>
           <div className='flex justify-between items-center mt-5'>
             <h1 className='text-xl font-semibold text-primary'>{position}</h1>
-            <button className='btn'>Apply</button>
+            <button onClick={handleApply} className='btn'>Apply</button>
           </div>
           <div>
             <h1 className='text-primary text-lg font-medium mb-3'>Overview</h1>

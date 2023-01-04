@@ -24,7 +24,7 @@ const CandidateRegistration = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    postUser({...data, role: 'employer'})
+    postUser({...data, role: 'candidate'})
   };
 
   return (

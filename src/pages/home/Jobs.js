@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetJobsQuery } from "../../app/features/job/jobApi";
 
 const Jobs = () => {
+  const user = useSelector(state => state.auth);
+  console.log("🚀 ~ file: JobDetails.js:11 ~ JobDetails ~ user", user)
   const navigate = useNavigate();
   const {data, isLoading, isError} = useGetJobsQuery()
 

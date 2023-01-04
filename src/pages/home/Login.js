@@ -1,23 +1,35 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../app/features/auth/authSlice";
+import { googleLogin, loginUser } from "../../app/features/auth/authSlice";
 import loginImage from "../../assets/login.svg";
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, email } = useSelector(state => state.auth);
+  const { isLoading, email, isError, error } = useSelector(state => state.auth);
   const onSubmit = ({email, password}) => {
     dispatch(loginUser({email, password}))
   };
+  const loginWithGoogle = () => {
+    dispatch(googleLogin())
+   }
   useEffect(() => {
    if(!isLoading && email){
+    toast.success('Successfully Logged In')
     navigate('/')
    }
   }, [isLoading, email]);
+  useEffect(() => {
+    if(isError) {
+      toast.error(error)
+      // if(error.includes('auth/user-not-found')){
+      // }
+    }
+  }, [isError, error]);
   return (
     <div className='flex h-screen items-center'>
       <div className='w-1/2'>
@@ -46,10 +58,18 @@ const Login = () => {
               </div>
               <div className='relative !mt-8'>
                 <button
+                
                   type='submit'
                   className='font-bold text-white py-3 rounded-full bg-primary w-full'
                 >
                   Login
+                </button>
+                <button
+                onClick={loginWithGoogle}
+                  type='submit'
+                  className='font-bold mt-4 text-white py-3 rounded-full bg-primary w-full'
+                >
+                  Login With Google
                 </button>
               </div>
               <div>

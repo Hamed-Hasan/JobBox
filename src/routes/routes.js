@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/dashboard/Dashboard";
 import Main from "../layout/main/Main";
+import AddJob from "../pages/employeeDashboard/AddJob";
 import Home from "../pages/home/Home";
 import JobDetails from "../pages/home/JobDetails";
 import Jobs from "../pages/home/Jobs";
@@ -9,6 +10,7 @@ import AccountCreator from "../pages/home/register/AccountCreator";
 
 import CandidateRegistration from "../pages/home/register/CandidateRegistration";
 import Signup from "../pages/home/Signup";
+import PrivateRoute from "../utils/PrivateRoute";
 
 const routes = createBrowserRouter([
 {
@@ -32,22 +34,40 @@ const routes = createBrowserRouter([
       element: <Signup/>,
     },
     {
-      path: "/job-details",
+      path: "/job-details/:id",
       element: <JobDetails/>,
     },
     {
       path: "/register",
-      element: <AccountCreator/>,
+      element: (
+        <PrivateRoute>
+            <AccountCreator/>
+        </PrivateRoute>
+      ),
     },
     {
-      path: "/register/:type",
-      element: <CandidateRegistration/>,
+      path: "/candidate",
+      element: (
+        <PrivateRoute>
+            <CandidateRegistration/>
+        </PrivateRoute>
+      ),
     },
   ],
 },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element:(
+      <PrivateRoute>
+          <Dashboard/>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "add-job",
+        element: <AddJob/>
+      }
+    ],
   },
 ]);
 
